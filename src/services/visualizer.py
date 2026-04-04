@@ -19,7 +19,6 @@ from matplotlib.transforms import Bbox
 
 matplotlib.use("Agg")
 
-import matplotlib.patches as mpatches
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 
@@ -74,7 +73,9 @@ class VisualizerService:
 
         # --- Build flat table rows ---
         # Each element: (row_label, [cell_text, ...], [cell_color, ...], is_divider)
-        rows: list[tuple[str, list[str], list, bool]] = []
+        rows: list[
+            tuple[str, list[str], list[tuple[float, float, float, float]], bool]
+        ] = []
 
         show_text: bool | None = None  # determined after sizing
 
@@ -98,7 +99,7 @@ class VisualizerService:
                 rows.insert(
                     0,
                     (
-                        f"Сесія 1",
+                        "Сесія 1",
                         [""] * m,
                         [_DIVIDER_COLOR] * m,
                         True,
@@ -219,6 +220,6 @@ class VisualizerService:
         return buf.read()
 
 
-def _hex_to_rgba(hex_color: str, alpha: float = 1.0) -> tuple:
+def _hex_to_rgba(hex_color: str, alpha: float = 1.0) -> tuple[float, float, float, float]:
     r, g, b = mcolors.to_rgb(hex_color)
     return (r, g, b, alpha)

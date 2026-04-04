@@ -82,7 +82,7 @@ def _flow_assignment(n: int, k: int, m: int) -> list[tuple[int, int]]:
       * each student appears exactly M times   (meets M distinct partners), and
       * each partner appears ⌊nM/K⌋ or ⌈nM/K⌉ times   (balanced load).
     """
-    G = nx.DiGraph()
+    G: nx.DiGraph[str] = nx.DiGraph()
     SRC, SNK = "__src__", "__snk__"
 
     total = n * m

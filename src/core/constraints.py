@@ -11,7 +11,7 @@ always satisfies the n_in_session ≤ K requirement internally.
 """
 
 import math
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 
 MAX_STUDENTS: int = 1000  # N  (raised: sessions remove the N≤K ceiling)
 MAX_PARTNERS: int = 200  # K

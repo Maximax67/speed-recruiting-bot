@@ -13,6 +13,8 @@ from src.core.algorithm import FullSchedule, generate_schedule
 from src.core.constraints import GenerateParams
 
 _executor = ThreadPoolExecutor(max_workers=4, thread_name_prefix="recruiter")
+
+_SEPARATOR_LENGTH = 20
 _MAX_MSG_CHARS = 4_000
 _COL_WIDTH = 6
 _LABEL_WIDTH = 3
@@ -45,7 +47,7 @@ class SchedulerService:
 
         for sess_idx, session in enumerate(schedule):
             n_in_sess = sizes[sess_idx]
-            sep = "─" * 38
+            sep = "─" * _SEPARATOR_LENGTH
             header = (
                 f"{sep}\n"
                 f"СЕСІЯ {sess_idx + 1}  ({n_in_sess} студентів)\n"

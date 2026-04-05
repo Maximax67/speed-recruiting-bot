@@ -156,7 +156,7 @@ class VisualizerService:
             cell_text_all.append(texts if (show_text and not is_div) else [""] * m)
             cell_color_all.append(colors)
 
-        col_labels = [str(r) for r in range(1, m + 1)]
+        col_labels = [f"Раунд {r}" for r in range(1, m + 1)]
 
         fig, ax = plt.subplots(figsize=(fig_w, fig_h), dpi=dpi)
         fig.patch.set_facecolor("#f0f2f5")
@@ -189,7 +189,7 @@ class VisualizerService:
             cell.set_linewidth(0.35)
             cell.set_edgecolor("#9aa0a6")
 
-            cell.get_text().set_horizontalalignment('center')
+            cell.get_text().set_horizontalalignment("center")
             cell.get_text().set_x(0.5)
 
             if row == 0 or col == -1:
@@ -220,6 +220,8 @@ class VisualizerService:
         return buf.read()
 
 
-def _hex_to_rgba(hex_color: str, alpha: float = 1.0) -> tuple[float, float, float, float]:
+def _hex_to_rgba(
+    hex_color: str, alpha: float = 1.0
+) -> tuple[float, float, float, float]:
     r, g, b = mcolors.to_rgb(hex_color)
     return (r, g, b, alpha)

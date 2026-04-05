@@ -54,6 +54,7 @@ async def cmd_generate(message: Message, container: Container) -> None:
     for chunk in chunks:
         await message.answer(f"<pre>{chunk}</pre>", parse_mode="HTML")
 
+    image_bytes: bytes | None = None
     try:
         image_bytes = await container.visualizer.generate_image_async(schedule, params)
         await message.answer_photo(
@@ -65,7 +66,24 @@ async def cmd_generate(message: Message, container: Container) -> None:
             ),
         )
     except Exception as exc:
-        logger.exception("Image rendering failed: %s", exc)
-        await message.answer(
-            "⚠️ Не вдалося згенерувати зображення, але текстовий розклад вище є повним."
-        )
+        logger.exception("Image send failed: %s", exc)
+        is_send_success = False
+
+        if image_bytes:
+            try:
+                await message.answer_document(
+                    BufferedInputFile(image_bytes, filename="schedule.png"),
+                    caption=(
+                        f"📊 Розклад — {params.n_students} студентів × "
+                        f"{params.n_rounds} раундів ({params.n_partners} партнерів, "
+                        f"{n_sess} {sess_label})"
+                    ),
+                )
+                is_send_success = True
+            except Exception as exc2:
+                logger.exception("Image send as file failed: %s", exc2)
+
+        if not is_send_success:
+            await message.answer(
+                "⚠️ Не вдалося згенерувати зображення, але текстовий розклад вище є повним."
+            )
